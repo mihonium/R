@@ -1,0 +1,98 @@
+>load("/Users/mihokiyokawa/R/bariatric.rda")
+> load("bariatric.rda")
+> bariatric
+   ID sex age hight weight      BMI method ope_time
+1   1   1  40 169.5  132.2 46.01422     SG      180
+2   2   2  44 158.0   94.0 37.65422     SG      167
+3   3   2  34 171.0  110.8 37.89200     SG      308
+4   4   2  38 159.0  109.8 43.43183     SG      220
+5   5   1  45 170.0  117.9 40.79585     SG      286
+6   6   2  65 146.5   86.1 40.11695     SG      205
+7   7   2  43 154.7  138.5 57.87209     RY      223
+8   8   2  55 155.4  108.4 44.88769     RY      200
+9   9   2  58 156.0  116.2 47.74819     RY      205
+10 10   1  44 170.6  111.0 38.13862     RY      219
+11 11   1  34 175.5  176.0 57.14239     RY      192
+> bariatric$age
+ [1] 40 44 34 38 45 65 43 55 58 44 34
+> x<-bariatric$age
+> mean(x)
+[1] 45.45455
+> summary(bariatric)
+       ID            sex             age            hight           weight           BMI       
+ Min.   : 1.0   Min.   :1.000   Min.   :34.00   Min.   :146.5   Min.   : 86.1   Min.   :37.65  
+ 1st Qu.: 3.5   1st Qu.:1.000   1st Qu.:39.00   1st Qu.:155.7   1st Qu.:109.1   1st Qu.:39.13  
+ Median : 6.0   Median :2.000   Median :44.00   Median :159.0   Median :111.0   Median :43.43  
+ Mean   : 6.0   Mean   :1.636   Mean   :45.45   Mean   :162.4   Mean   :118.3   Mean   :44.70  
+ 3rd Qu.: 8.5   3rd Qu.:2.000   3rd Qu.:50.00   3rd Qu.:170.3   3rd Qu.:125.0   3rd Qu.:46.88  
+ Max.   :11.0   Max.   :2.000   Max.   :65.00   Max.   :175.5   Max.   :176.0   Max.   :57.87  
+    method             ope_time    
+ Length:11          Min.   :167.0  
+ Class :character   1st Qu.:196.0  
+ Mode  :character   Median :205.0  
+                    Mean   :218.6  
+                    3rd Qu.:221.5  
+                    Max.   :308.0  
+> x<-c(1,2,2,2,1,2,2,2,2,1,1)
+> y<-factor(x,levels=c(1,2),labels=c("m","f"))
+> y
+ [1] m f f f m f f f f m m
+Levels: m f
+> bariatric$sex<-factor(bariatric$sex,levels=c(1,2),labels=c("m","f"))
+> bariatric$sex
+ [1] m f f f m f f f f m m
+Levels: m f
+> summary(bariatric)
+       ID       sex        age            hight           weight           BMI           method         
+ Min.   : 1.0   m:4   Min.   :34.00   Min.   :146.5   Min.   : 86.1   Min.   :37.65   Length:11         
+ 1st Qu.: 3.5   f:7   1st Qu.:39.00   1st Qu.:155.7   1st Qu.:109.1   1st Qu.:39.13   Class :character  
+ Median : 6.0         Median :44.00   Median :159.0   Median :111.0   Median :43.43   Mode  :character  
+ Mean   : 6.0         Mean   :45.45   Mean   :162.4   Mean   :118.3   Mean   :44.70                     
+ 3rd Qu.: 8.5         3rd Qu.:50.00   3rd Qu.:170.3   3rd Qu.:125.0   3rd Qu.:46.88                     
+ Max.   :11.0         Max.   :65.00   Max.   :175.5   Max.   :176.0   Max.   :57.87                     
+    ope_time    
+ Min.   :167.0  
+ 1st Qu.:196.0  
+ Median :205.0  
+ Mean   :218.6  
+ 3rd Qu.:221.5  
+ Max.   :308.0  
+> bariatric$method<-factor(bariatric$method,levels=c("SG","RY"))
+> bariatric$method
+ [1] SG SG SG SG SG SG RY RY RY RY RY
+Levels: SG RY
+> summary(bariatric)
+       ID       sex        age            hight           weight           BMI        method    ope_time    
+ Min.   : 1.0   m:4   Min.   :34.00   Min.   :146.5   Min.   : 86.1   Min.   :37.65   SG:6   Min.   :167.0  
+ 1st Qu.: 3.5   f:7   1st Qu.:39.00   1st Qu.:155.7   1st Qu.:109.1   1st Qu.:39.13   RY:5   1st Qu.:196.0  
+ Median : 6.0         Median :44.00   Median :159.0   Median :111.0   Median :43.43          Median :205.0  
+ Mean   : 6.0         Mean   :45.45   Mean   :162.4   Mean   :118.3   Mean   :44.70          Mean   :218.6  
+ 3rd Qu.: 8.5         3rd Qu.:50.00   3rd Qu.:170.3   3rd Qu.:125.0   3rd Qu.:46.88          3rd Qu.:221.5  
+ Max.   :11.0         Max.   :65.00   Max.   :175.5   Max.   :176.0   Max.   :57.87          Max.   :308.0  
+> bariatric$method<-as.factor(bariatric$method)
+> 
+> tx<-table(bariatric$sex,bariatric$method)
+> tx
+   
+    SG RY
+  m  2  2
+  f  4  3
+> addmargins(tx)
+     
+      SG RY Sum
+  m    2  2   4
+  f    4  3   7
+  Sum  6  5  11
+> prop.table(tx)
+   
+           SG        RY
+  m 0.1818182 0.1818182
+  f 0.3636364 0.2727273
+> tapply(bariatric$age,list(bariatric$sex,bariatric$method),mean)
+     SG RY
+m 42.50 39
+f 45.25 52
+> tapply(bariatric$age,bariatric$sex,mean)
+       m        f 
+40.75000 48.14286 
+> 
